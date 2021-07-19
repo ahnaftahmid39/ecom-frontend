@@ -27,6 +27,6 @@ export const prices = [
   {
     id: 5,
     name: 'More than 4000',
-    arr: [4000, 100000],
+    arr: [4000, 10000000],
   },
 ];

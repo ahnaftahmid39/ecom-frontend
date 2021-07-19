@@ -22,3 +22,12 @@ export const createProduct = (token, data) => {
 export const getCategories = () => {
   return axios.get(`${API}/category`);
 };
+
+export const createCoupon = (token, data) => {
+  return axios.post(`${API}/coupon`, data, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  });
+}

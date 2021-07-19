@@ -46,43 +46,63 @@ const Dashboard = () => {
                 className='list-item-group p-3 mb-3'
                 style={{
                   border: '1px solid grey',
+                  borderRadius: '.5rem',
                   listStylePosition: 'inside',
                 }}
                 key={his._id}
               >
-                <div>
-                  <span>Purchase Date: </span>
-                  <span>{new Date(his.updatedAt).toLocaleString()}</span>
-                </div>
-                <div>
-                  <div>Product List</div>
-                  <ul>
-                    {his.cartItems.length > 0 &&
-                      his.cartItems.map((cart) => {
-                        return (
-                          <li
-                            style={{
-                              listStyleType: 'square',
-                              listStylePosition: 'outside',
-                            }}
-                            key={cart._id}
-                          >
-                            <div>{cart.product.name}</div>
-                            <div>Total count: {cart.count}</div>
-                            <div>Price: {cart.price}</div>
-                            {cart.discount ? (
-                              <div>Used discount: {cart.discount}%</div>
-                            ) : (
-                              ''
-                            )}
-                          </li>
-                        );
-                      })}
-                  </ul>
-                </div>
-                <div>
-                  <div>Transaction Id:</div>
-                  <div>{his.transaction_id}</div>
+                <div className='row'>
+                  <div className='col-8'>
+                    <div>
+                      <span>Purchase Date: </span>
+                      <span>{new Date(his.updatedAt).toLocaleString()}</span>
+                    </div>
+                    <div>
+                      <div>Product List</div>
+                      <ul>
+                        {his.cartItems.length > 0 &&
+                          his.cartItems.map((cart) => {
+                            return (
+                              <li
+                                style={{
+                                  listStyleType: 'square',
+                                  listStylePosition: 'outside',
+                                }}
+                                key={cart._id}
+                              >
+                                <div>{cart.product.name}</div>
+                                <div>Total count: {cart.count}</div>
+                                <div>Price: {cart.price}</div>
+                                {cart.discount ? (
+                                  <div>Used discount: {cart.discount}%</div>
+                                ) : (
+                                  ''
+                                )}
+                              </li>
+                            );
+                          })}
+                      </ul>
+                    </div>
+                    <div>
+                      <div>Transaction Id:</div>
+                      <div>{his.transaction_id}</div>
+                    </div>
+                  </div>
+
+                  <div
+                    className='col-2 text-center'
+                    style={{ borderLeft: '1px solid grey' }}
+                  >
+                    <div className='badge badge-primary'>Order Status</div>
+                    <div>{his.status}</div>
+                  </div>
+                  <div
+                    className='col-2 text-center'
+                    style={{ borderLeft: '1px solid grey' }}
+                  >
+                    <div className='badge badge-primary'>Payment Status</div>
+                    <div>{his.paymentStatus}</div>
+                  </div>
                 </div>
               </li>
             ))

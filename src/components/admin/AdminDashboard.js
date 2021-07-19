@@ -19,6 +19,11 @@ const AdminDashBoard = () => {
               Create Product
             </Link>
           </li>
+          <li className='list-group-item'>
+            <Link className='nav-link' to='/admin/create/coupon'>
+              Create Coupon
+            </Link>
+          </li>
         </ul>
       </div>
     );
