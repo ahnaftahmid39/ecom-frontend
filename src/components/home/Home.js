@@ -250,7 +250,7 @@ const Home = () => {
       <center className='mb-5'>
         <button
           className='btn btn-primary'
-          disabled={products?.length < limit}
+          disabled={products?.length <= limit}
           onClick={handleLoadMore}
         >
           Load More
