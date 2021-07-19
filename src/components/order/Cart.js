@@ -5,12 +5,18 @@ import {
   getCartItems,
   updateCartItem,
   deleteCartItem,
+  getAndValidateCoupon,
+  updateCartDiscount,
 } from '../../api/apiOrder';
 import { userInfo } from '../../utils/auth';
 import CartItem from './CartItem';
+import { showError } from '../../utils/messages';
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
+  const [couponCode, setCouponCode] = useState('');
+  const [couponInfo, setCouponInfo] = useState({});
+  const [error, setError] = useState('');
 
   const loadCartItems = () => {
     getCartItems(userInfo().token)
@@ -18,7 +24,11 @@ const Cart = () => {
         setCartItems(res.data);
       })
       .catch((err) => {
-        console.log(err.response?.data.message);
+        const msg = err.response?.data.message || 'Something went wrong';
+        setError(msg);
+        setTimeout(() => {
+          setError('');
+        }, 2000);
       });
   };
 
@@ -30,7 +40,10 @@ const Cart = () => {
       })
       .catch((err) => {
         const msg = err.response?.data.message || 'Something went wrong';
-        console.log(msg);
+        setError(msg);
+        setTimeout(() => {
+          setError('');
+        }, 2000);
       });
   };
 
@@ -41,8 +54,11 @@ const Cart = () => {
         loadCartItems();
       })
       .catch((err) => {
-        const msg = err.response.data.message || 'Something went wrong';
-        console.log(msg);
+        const msg = err.response?.data.message || 'Something went wrong';
+        setError(msg);
+        setTimeout(() => {
+          setError('');
+        }, 2000);
       });
   };
 
@@ -52,10 +68,14 @@ const Cart = () => {
 
   const getTotalPrice = () => {
     let totalPrice = 0;
+    let multiplier = 1;
+    if (couponInfo.discount) {
+      multiplier = 1 - couponInfo.discount / 100;
+    }
     for (const item of cartItems) {
       totalPrice += item.count * item.price;
     }
-    return totalPrice;
+    return totalPrice * multiplier;
   };
 
   const increaseItem = (item) => () => {
@@ -76,6 +96,33 @@ const Cart = () => {
     updateCartItems(cartItem);
   };
 
+  const checkCoupon = (e) => {
+    e.preventDefault();
+    getAndValidateCoupon(userInfo().token, couponCode)
+      .then((res) => {
+        if (res.data) {
+          setCouponInfo(res.data);
+          updateCartDiscount(userInfo().token, res.data.discount).catch(
+            (err) => {
+              const error =
+                err.response?.data.message || 'something went wrong';
+              setError(error);
+              setTimeout(() => {
+                setError('');
+              }, 2000);
+            }
+          );
+        }
+      })
+      .catch((err) => {
+        const error = err.response?.data.message || 'something went wrong';
+        setError(error);
+        setTimeout(() => {
+          setError('');
+        }, 2000);
+      });
+  };
+
   return (
     <Layout
       title='Your Cart'
@@ -93,6 +140,7 @@ const Cart = () => {
         </ol>
       </nav>
       <div className='container my-5'>
+        {showError(error, error)}
         <table className='table table-hover'>
           <thead>
             <tr>
@@ -105,7 +153,7 @@ const Cart = () => {
               <th scope='col' align='right'>
                 Price
               </th>
-              <th scop='col'>Remove</th>
+              <th scope='col'>Remove</th>
             </tr>
           </thead>
           <tbody>
@@ -118,14 +166,45 @@ const Cart = () => {
                   increaseItem={increaseItem(item)}
                   decreaseItem={decreaseItem(item)}
                   removeItem={removeCartItem(item)}
+                  multiplier={
+                    couponInfo.discount ? 1 - couponInfo.discount / 100 : 1
+                  }
                 />
               ))}
             <tr>
               <th scope='row' />
               <td colSpan={2}>Total</td>
-              <td align='right'>৳ {getTotalPrice()}</td>
+              <td align='right' colSpan={2}>
+                ৳ {getTotalPrice()}
+              </td>
               <td />
             </tr>
+            <tr>
+              <th scope='row'></th>
+              <td colSpan={2}>Use coupon</td>
+              <td colSpan={2}>
+                <form onSubmit={checkCoupon}>
+                  <input
+                    className='mx-4'
+                    placeholder='Write your coupon'
+                    value={couponCode}
+                    onChange={(e) => {
+                      setCouponCode(e.target.value);
+                    }}
+                  />
+                  <button type='submit' className='btn btn-primary'>
+                    Check Coupon
+                  </button>
+                </form>
+              </td>
+            </tr>
+            {Object.keys(couponInfo).length > 0 && (
+              <tr className='p-2'>
+                <th scope='row'></th>
+                <td colSpan={2}>Using coupon: {couponInfo.name}</td>
+                <td colSpan={2}>Discount: {couponInfo.discount}%</td>
+              </tr>
+            )}
             <tr>
               <th scope='row' />
               <td colSpan={4} className='text-right'>

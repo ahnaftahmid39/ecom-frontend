@@ -7,7 +7,7 @@ const CartItem = ({
   increaseItem,
   decreaseItem,
   removeItem,
-  discount = 1,
+  multiplier = 1,
 }) => {
   return (
     <tr>
@@ -18,7 +18,7 @@ const CartItem = ({
           style={{ width: '50px', maxHeight: '50vh' }}
         />
       </th>
-      <td></td>
+      <td>{item.product.name}</td>
       <td>
         <button
           className='btn btn-outline-primary btn-sm'
@@ -34,7 +34,7 @@ const CartItem = ({
           +
         </button>
       </td>
-      <td align='right'>৳ {item.price * item.count * discount}</td>
+      <td>৳ {item.price * item.count * multiplier}</td>
       <td>
         <button className='btn btn-danger btn-sm' onClick={removeItem}>
           Remove From Cart

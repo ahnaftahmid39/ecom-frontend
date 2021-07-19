@@ -27,6 +27,19 @@ export const updateCartItem = (token, cartItem) => {
   });
 };
 
+export const updateCartDiscount = (token, amount) => {
+  return axios.post(
+    `${API}/cart/discount`,
+    { discount: amount },
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+};
+
 export const deleteCartItem = (token, cartItem) => {
   return axios.delete(`${API}/cart/${cartItem._id}`, {
     headers: {
@@ -66,4 +79,16 @@ export const getPurchaseHistory = (token) => {
       Authorization: `Bearer ${token}`,
     },
   });
-}
+};
+
+export const getAndValidateCoupon = (token, code) => {
+  return axios.post(
+    `${API}/coupon/validate`,
+    { code: code },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+};

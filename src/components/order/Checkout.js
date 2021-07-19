@@ -35,7 +35,12 @@ const Checkout = () => {
   }, []);
 
   const getOrderTotal = () => {
-    const arr = orderItems.map((cartItem) => cartItem.price * cartItem.count);
+    const arr = orderItems.map(
+      (cartItem) =>
+        cartItem.price *
+        cartItem.count *
+        (cartItem.discount ? 1 - cartItem.discount / 100 : 1)
+    );
     const sum = arr.reduce((a, b) => a + b, 0);
     return sum;
   };
@@ -101,7 +106,10 @@ const Checkout = () => {
                           align='right'
                         >
                           {item.product ? item.product.name : ''} x {item.count}{' '}
-                          = ৳ {item.price * item.count}{' '}
+                          = ৳{' '}
+                          {item.price *
+                            item.count *
+                            (item.discount ? 1 - item.discount / 100 : 1)}{' '}
                         </li>
                       ))}
                     </ul>

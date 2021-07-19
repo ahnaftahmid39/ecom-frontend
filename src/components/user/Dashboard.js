@@ -52,7 +52,7 @@ const Dashboard = () => {
               >
                 <div>
                   <span>Purchase Date: </span>
-                  <span>{new Date(his.updatedAt).toLocaleDateString()}</span>
+                  <span>{new Date(his.updatedAt).toLocaleString()}</span>
                 </div>
                 <div>
                   <div>Product List</div>
@@ -70,6 +70,11 @@ const Dashboard = () => {
                             <div>{cart.product.name}</div>
                             <div>Total count: {cart.count}</div>
                             <div>Price: {cart.price}</div>
+                            {cart.discount ? (
+                              <div>Used discount: {cart.discount}%</div>
+                            ) : (
+                              ''
+                            )}
                           </li>
                         );
                       })}
