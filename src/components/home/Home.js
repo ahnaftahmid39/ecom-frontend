@@ -238,19 +238,24 @@ const Home = () => {
         {showSuccess(success, 'Added to cart successfully!')}
       </div>
       <div className='row'>
-        {products &&
+        {products.length > 0 ? (
           products.map((product) => (
             <Card
               product={product}
               key={product._id}
               handleAddToCart={handleAddToCart}
             />
-          ))}
+          ))
+        ) : (
+          <div className='container text-center my-5'>
+            No more products to show
+          </div>
+        )}
       </div>
       <center className='mb-5'>
         <button
           className='btn btn-primary'
-          disabled={products?.length <= limit}
+          disabled={products?.length < limit}
           onClick={handleLoadMore}
         >
           Load More
