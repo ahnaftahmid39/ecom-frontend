@@ -1,2 +1,2 @@
-# Number Guessing Game
-A number guessing game created with JavaScript to enhance JavaScript skills. To play go to this link: https://ahnaftahmid31.github.io/Number-Guessing-Game/
+# E-commerce project 
+This is the frontend of the e-commerce project I was doing while learning sslcommerz in bohubrihi. Please do not copy this project. 
