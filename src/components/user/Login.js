@@ -4,6 +4,7 @@ import { showError, showLoading } from '../../utils/messages';
 import { login } from '../../api/apiAuth';
 import { Redirect } from 'react-router-dom';
 import { authenticate, isAuthenticated, userInfo } from '../../utils/auth';
+import SocialLoginButton from './SocialLoginButton';
 
 const Login = () => {
   const [values, setValues] = useState({
@@ -104,6 +105,7 @@ const Login = () => {
       {showLoading(loading)}
       <h3>Login Here,</h3>
       <hr />
+      <SocialLoginButton />
       {signInForm()}
       <hr />
     </Layout>

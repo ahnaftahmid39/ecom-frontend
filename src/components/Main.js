@@ -14,6 +14,8 @@ import ShipingAddress from './order/ShippingAddress';
 import Checkout from './order/Checkout';
 import Payment from './order/Payment';
 import CreateCoupon from './admin/CreateCoupon';
+import SocialLogin from './user/SocialLogin';
+
 const Main = () => {
   return (
     <div>
@@ -21,6 +23,7 @@ const Main = () => {
         <Route path='/home' exact component={Home} />
         <Route path='/login' exact component={Login} />
         <Route path='/register' exact component={Register} />
+        <Route path='/loginsocial' exact component={SocialLogin} />
         <Route path='/product/:id' exact component={ProductDetails} />
         <PrivateRoute path='/user/dashboard' exact>
           <Dashboard />
