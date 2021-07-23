@@ -20,14 +20,11 @@ const SocialLoginButton = (props) => {
       />
       <FacebookLoginButton
         onClick={() => {
-          axios
-            .get(`${backend}/auth/facebook`)
-            .then((res) => {
-              console.log(res.data);
-            })
-            .catch((err) => {
-              console.log(err.response?.data || err.message);
-            });
+          try {
+            window.open(`${backend}/auth/facebook`, '_self');
+          } catch (error) {
+            console.log(error.message);
+          }
         }}
       />
     </div>
